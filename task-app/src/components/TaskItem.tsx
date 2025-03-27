@@ -10,8 +10,8 @@ interface TaskProps {
 
 const TaskItem: React.FC<TaskProps> = ({ task, onDelete, onUpdate }) => {
   return (
-    <div>
-      <h3>{task.name}</h3>
+    <div style={{ border: "1px solid #ccc", padding: "10px" }}>
+      <p>Title: {task.name}</p>
       <p>{task.description}</p>
       <button onClick={() => onUpdate(task._id)}>
         {task.complete ? "Completed" : "Mark as Complete"}

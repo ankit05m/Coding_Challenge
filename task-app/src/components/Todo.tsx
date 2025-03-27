@@ -6,6 +6,7 @@ import { createTask, fetchTasks, deleteTask, updateTask } from "../taskApi";
 
 const App: React.FC = () => {
   const [tasks, setTasks] = useState<TaskAndId[]>([]);
+  //const [allTasks, setAllTasks] = useState<TaskAndId[]>([]);
   const [newTask, setNewTask] = useState<Task>({
     name: "",
     description: "",
@@ -24,6 +25,18 @@ const App: React.FC = () => {
     };
     getTasks();
   }, []);
+
+  useEffect(() => {
+    const getTasks = async () => {
+      try {
+        const tasksData = await fetchTasks();
+        setTasks(tasksData);
+      } catch (error) {
+        console.error("Error fetching tasks:", error);
+      }
+    };
+    getTasks();
+  }, [tasks]);
 
   // Handle creating a new task
   const handleCreateTask = async () => {
@@ -66,22 +79,29 @@ const App: React.FC = () => {
   };
 
   return (
-    <div>
+    <div className="card">
       <h1>Task App</h1>
-      <div>
-        <input
-          type="text"
-          value={newTask.name}
-          onChange={(e) => setNewTask({ ...newTask, name: e.target.value })}
-          placeholder="Task Name"
-        />
-        <textarea
-          value={newTask.description}
-          onChange={(e) =>
-            setNewTask({ ...newTask, description: e.target.value })
-          }
-          placeholder="Task Description"
-        />
+      <div style={{ width: "300px", marginBottom: "20px" }}>
+        <div style={{ marginBottom: "10px" }}>
+          <input
+            type="text"
+            value={newTask.name}
+            onChange={(e) => setNewTask({ ...newTask, name: e.target.value })}
+            placeholder="Task Name"
+            style={{ width: "100%" }}
+          />
+        </div>
+
+        <div>
+          <textarea
+            value={newTask.description}
+            onChange={(e) =>
+              setNewTask({ ...newTask, description: e.target.value })
+            }
+            placeholder="Task Description"
+            style={{ width: "100%", height: "60px" }}
+          />
+        </div>
         <button onClick={handleCreateTask}>Create Task</button>
       </div>
       <TaskList

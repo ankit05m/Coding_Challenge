@@ -15,7 +15,7 @@ const tasks: Array<Task> = [
     complete: false,
   },
 ];
-const mongoURI = process.env.MONGODB_URI || "mongodb://database:27017/tasks";
+const mongoURI = process.env.MONGODB_URI || "mongodb://localhost:27017/tasks";
 mongoose
   .connect(mongoURI)
   .then(() => console.log("MongoDB connected."))
@@ -24,7 +24,7 @@ mongoose
 app.use(bodyParser.json());
 app.use(
   cors({
-    origin: ["http://localhost:4200"],
+    origin: ["http://localhost:4200", "http://localhost:5173"],
     allowedHeaders: [
       "Content-Type",
       "Authorization",
@@ -54,7 +54,13 @@ app.get("/api/tasks", async (req, res) => {
 });
 
 app.post("/api/tasks", async (req, res) => {
-  const { task } = req.body;
+  const { name, description, complete } = req.body;
+  const task = {
+    name: name,
+    due: new Date(Date.now() + 3600),
+    description: description,
+    complete: complete,
+  };
   console.log(task);
   await TaskModel.create(task);
   res.status(201).send();

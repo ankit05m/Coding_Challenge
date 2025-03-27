@@ -12,13 +12,8 @@ interface TaskListProps {
 const TaskList: React.FC<TaskListProps> = ({ tasks, onDelete, onUpdate }) => {
   return (
     <div>
-      {tasks.map((task) => (
-        <TaskItem
-          key={task._id}
-          task={task}
-          onDelete={onDelete}
-          onUpdate={onUpdate}
-        />
+      {tasks.map((task, i) => (
+        <TaskItem key={i} task={task} onDelete={onDelete} onUpdate={onUpdate} />
       ))}
     </div>
   );

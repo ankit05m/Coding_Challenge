@@ -19,6 +19,7 @@ export const fetchTasks = async (): Promise<TaskAndId[]> => {
 // Function to create a new task
 export const createTask = async (task: Task): Promise<TaskAndId> => {
   try {
+    console.log("create", task);
     const response = await axios.post(API_URL, task);
     return response.data;
   } catch (error) {
